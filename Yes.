@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Yes/No Choices</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .button {
+            padding: 20px 40px; /* Increased padding for larger buttons */
+            font-size: 18px; /* Increased font size */
+            cursor: pointer;
+        }
+        .random-word {
+            position: absolute;
+            font-size: 18px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="question">Mang libre ka after second exam👉👈?</div>
+    <div class="button-container" id="button-container">
+        <button class="button" id="yes">Yes</button>
+        <button class="button" id="no">No</button>
+    </div>
+
+    <script>
+        const yesButton = document.getElementById('yes');
+        const noButton = document.getElementById('no');
+        const buttonContainer = document.getElementById('button-container');
+        const randomWords = ["ples", "baka namn 👉👈🥹", "😞", "trade ba trade", "this is once in a life time", "this is the first but not the last", "🥹", "UwU", "ples sensie", "😭😭😭", "😥", "😢", "😟"];
+
+        noButton.addEventListener('click', () => {
+            moveButtonRandomly(noButton);
+            createNewYesButton();
+            showRandomWord();
+        });
+
+        function moveButtonRandomly(button) {
+            const x = Math.random() * (window.innerWidth - button.offsetWidth);
+            const y = Math.random() * (window.innerHeight - button.offsetHeight);
+            button.style.position = 'absolute';
+            button.style.left = `${x}px`;
+            button.style.top = `${y}px`;
+        }
+
+        function createNewYesButton() {
+            const newYesButton = document.createElement('button');
+            newYesButton.textContent = 'Yes';
+            newYesButton.className = 'button';
+            newYesButton.addEventListener('click', resetPage);
+            moveButtonRandomly(newYesButton);
+            document.body.appendChild(newYesButton);
+        }
+
+        function showRandomWord() {
+            const randomWord = randomWords[Math.floor(Math.random() * randomWords.length)];
+            const wordElement = document.createElement('div');
+            wordElement.textContent = randomWord;
+            wordElement.className = 'random-word';
+            moveButtonRandomly(wordElement);
+            document.body.appendChild(wordElement);
+        }
+
+        yesButton.addEventListener('click', resetPage);
+
+        function resetPage() {
+            alert('Great! See you after the exam!');
+            // Reset the buttons to their original positions
+            document.querySelectorAll('.button').forEach(button => {
+                button.style.position = 'static';
+            });
+            // Remove any additional Yes buttons
+            document.querySelectorAll('.button:not(#yes):not(#no)').forEach(button => {
+                button.remove();
+            });
+            // Remove all random words
+            document.querySelectorAll('.random-word').forEach(word => {
+                word.remove();
+            });
+        }
+    </script>
+</body>
+</html>
